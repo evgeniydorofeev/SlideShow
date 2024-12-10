@@ -1,8 +1,8 @@
-package test.repository;
+package test.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import test.entity.SlideshowImage;
+import test.entities.SlideshowImage;
 
 public interface SlideshowImageRepository extends JpaRepository<SlideshowImage, Long>  {
 }

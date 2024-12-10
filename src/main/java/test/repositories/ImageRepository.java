@@ -1,4 +1,4 @@
-package test.repository;
+package test.repositories;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import test.dto.ImageDto;
 import test.dto.ImageWithSlideshowDto;
-import test.entity.Image;
+import test.entities.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
 

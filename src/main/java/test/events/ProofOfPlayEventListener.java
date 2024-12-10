@@ -1,4 +1,4 @@
-package test.listener;
+package test.events;
 
 import java.time.Instant;
 
@@ -7,13 +7,12 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import test.entity.Image;
-import test.entity.ProofOfPlay;
-import test.entity.Slideshow;
-import test.events.ProofOfPlayEvent;
-import test.repository.ImageRepository;
-import test.repository.ProofOfPlayRepository;
-import test.repository.SlideshowRepository;
+import test.entities.Image;
+import test.entities.ProofOfPlay;
+import test.entities.Slideshow;
+import test.repositories.ImageRepository;
+import test.repositories.ProofOfPlayRepository;
+import test.repositories.SlideshowRepository;
 
 @Component
 public class ProofOfPlayEventListener {

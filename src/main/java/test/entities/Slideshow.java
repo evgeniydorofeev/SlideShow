@@ -1,6 +1,10 @@
-package test.entity;
+package test.entities;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,14 +16,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Image extends EntityBase {
-	
+public class Slideshow extends EntityBase {
+
 	@NotNull
 	private String name;
-	
-	@NotNull
-	private String url;
-	
-	@NotNull
-	private Long duration;
+
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "slideshow")
+	private List<SlideshowImage> slideshowImages;
 }

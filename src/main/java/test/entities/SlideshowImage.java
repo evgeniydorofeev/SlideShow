@@ -1,10 +1,8 @@
-package test.entity;
-
-import java.util.List;
+package test.entities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,11 +14,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Slideshow extends EntityBase {
+public class SlideshowImage extends EntityBase {
+	
+	@NotNull
+	@ManyToOne
+	private Image image;
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@NotNull
+	private Slideshow slideshow;
 
 	@NotNull
-	private String name;
-
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "slideshow")
-	private List<SlideshowImage> slideshowImages;
+	private Integer slideOrder;
+	
 }
+

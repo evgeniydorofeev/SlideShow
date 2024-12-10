@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import test.dto.ImageDto;
 import test.dto.ImageWithSlideshowDto;
 import test.dto.SlideshowDto;
-import test.entity.Image;
-import test.entity.Slideshow;
-import test.entity.SlideshowImage;
+import test.entities.Image;
+import test.entities.Slideshow;
+import test.entities.SlideshowImage;
 import test.events.ProofOfPlayEvent;
-import test.repository.ImageRepository;
-import test.repository.SlideshowImageRepository;
-import test.repository.SlideshowRepository;
+import test.repositories.ImageRepository;
+import test.repositories.SlideshowImageRepository;
+import test.repositories.SlideshowRepository;
 
 @RestController
 public class SlideshowController {

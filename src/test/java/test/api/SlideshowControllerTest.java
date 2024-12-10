@@ -22,14 +22,14 @@ import lombok.SneakyThrows;
 import test.dto.ImageDto;
 import test.dto.ImageWithSlideshowDto;
 import test.dto.SlideshowDto;
-import test.entity.Image;
-import test.entity.ProofOfPlay;
-import test.entity.Slideshow;
-import test.entity.SlideshowImage;
-import test.repository.ImageRepository;
-import test.repository.ProofOfPlayRepository;
-import test.repository.SlideshowImageRepository;
-import test.repository.SlideshowRepository;
+import test.entities.Image;
+import test.entities.ProofOfPlay;
+import test.entities.Slideshow;
+import test.entities.SlideshowImage;
+import test.repositories.ImageRepository;
+import test.repositories.ProofOfPlayRepository;
+import test.repositories.SlideshowImageRepository;
+import test.repositories.SlideshowRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/test.properties")
