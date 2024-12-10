@@ -34,7 +34,7 @@ import test.repositories.SlideshowRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/test.properties")
 @Sql("/init.sql")
-public class SlideshowControllerTest {
+public class SlideshowControllerIT {
 
 	@Autowired
 	private ImageRepository imageRepository;
