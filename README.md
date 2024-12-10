@@ -15,4 +15,4 @@ The app is listening on port 8080. You can test the API by sending the following
 6. curl -X GET http://localhost:8080/slideShow/1/slideshowOrder
 7. curl -X GET http://localhost:8080/slideShow/1/proof-of-play/1
 
-Note that addImage and addSlideShow return created entity Id which can be used requests using {id}
+Note that addImage and addSlideShow return created entity Id which can be used in requests using ID.
