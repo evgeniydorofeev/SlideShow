@@ -1,3 +1,4 @@
+delete from proof_of_play;
 delete from slideshow_image;
 delete from image;
 delete from slideshow;

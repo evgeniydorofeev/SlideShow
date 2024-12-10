@@ -34,7 +34,7 @@ import test.repository.SlideshowRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/test.properties")
 @Sql("/init.sql")
-public class SlideshowControllerIT {
+public class SlideshowControllerTest {
 
 	@Autowired
 	private ImageRepository imageRepository;
@@ -108,6 +108,7 @@ public class SlideshowControllerIT {
 	    		Arguments.of("keyword=url1", 1001L, "image1", 1L, 1001L, "slideshow1")
 	    );
 	}
+	
 	@Test
 	public void testGetSlideshowImages() {
 		ImageDto[] dtos = testRestTemplate.getForObject("/slideShow/1001/slideshowOrder", ImageDto[].class);

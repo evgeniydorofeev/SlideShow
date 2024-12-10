@@ -22,7 +22,6 @@ import test.entity.Slideshow;
 import test.entity.SlideshowImage;
 import test.events.ProofOfPlayEvent;
 import test.repository.ImageRepository;
-import test.repository.ProofOfPlayRepository;
 import test.repository.SlideshowImageRepository;
 import test.repository.SlideshowRepository;
 
@@ -85,6 +84,7 @@ public class SlideshowController {
 	@GetMapping("/slideShow/{id}/proof-of-play/{imageId}")
 	public void proofOfPlay(@PathVariable("id") long slideShowId, @PathVariable("imageId") long imageId) {
 		eventPublisher.publishEvent(new ProofOfPlayEvent(this, slideShowId, imageId));
+		throw new RuntimeException();
 	}
 
 }
