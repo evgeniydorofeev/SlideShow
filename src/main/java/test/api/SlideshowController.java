@@ -40,17 +40,34 @@ public class SlideshowController {
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 	
+	/**
+	 * Create a new Image entity.
+	 * 
+	 * @param   dto the new Image data.
+	 * @return  ID of the created entity. 
+	 */
 	@PostMapping("/addImage")
 	public Long addImage(@RequestBody ImageDto dto) {
 		Image image = new Image(dto.name(), dto.url(), dto.duration());
 		return imageRepository.save(image).getId();
 	}
 
+	/**
+	 * Remove an Image by its ID.
+	 * 
+	 * @param id the Image ID.
+	 */
 	@DeleteMapping("/deleteImage/{id}")
 	public void deleteImage(@PathVariable("id") long id) {
 		imageRepository.deleteById(id);
 	}
 
+	/**
+	 * Create a new Slideshow entity. 
+	 * 
+	 * @param  dto the Slideshow data.
+	 * @return the created entity ID.
+	 */
 	@PostMapping("/addSlideshow")
 	@Transactional
 	public Long addSlideshow(@RequestBody SlideshowDto dto) {
@@ -64,27 +81,55 @@ public class SlideshowController {
 		return slideShow.getId();
 	}
 
+	/**
+	 * Remove a Slideshow by its ID.
+	 * 
+	 * @param the SlideShow ID.
+	 */
 	@DeleteMapping("/deleteSlideshow/{id}")
 	@Transactional
 	public void deleteSlideshow(@PathVariable("id") long slideShowId) {
 		slideshowRepository.deleteById(slideShowId);
 	}
 
+	/**
+	 * Retrieve images and slideshows found images belong to based on keywords in the URL or duration.
+	 * 
+	 * If both duration and keyword are specified then both parameters should match. 
+	 * 
+	 * @param  duration in milliseconds
+	 * @param  keyword keyword 
+	 * @return Images that meet the specified search criteria.
+	 */
 	@GetMapping("/images/search")
 	public List<ImageWithSlideshowDto> imageSearch(@RequestParam(name = "duration", required = false) Long duration,
 			@RequestParam(name = "keyword", required = false) String keyword) {
+		if (duration == null && keyword == null) {
+			throw new IllegalStateException("Either duration or keyword parameters must be specified in the request");
+		}
 		return imageRepository.findImageWithSlideshow(duration, keyword);
 	}
 
+	/**
+	 *  Get a Slideshow images ordered by duration.
+	 * 
+	 * @param  slideShowId the Slideshow ID.
+	 * @return the Slideshow images ordered by duration.
+	 */
 	@GetMapping("/slideShow/{id}/slideshowOrder")
 	public List<ImageDto> getSlideshowImages(@PathVariable("id") long slideShowId) {
 		return imageRepository.getImagesBySlideshowId(slideShowId);
 	}
 
+	/**
+	 * When an Image is being replaced to the next one, record this event as a new ProofOfPlay entity.
+	 * 
+	 * @param slideShowId the Slideshow ID.
+	 * @param imageId the Image ID.
+	 */
 	@GetMapping("/slideShow/{id}/proof-of-play/{imageId}")
 	public void proofOfPlay(@PathVariable("id") long slideShowId, @PathVariable("imageId") long imageId) {
 		eventPublisher.publishEvent(new ProofOfPlayEvent(this, slideShowId, imageId));
-		throw new RuntimeException();
 	}
 
 }
