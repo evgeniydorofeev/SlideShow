@@ -3,6 +3,7 @@ package test.api;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -17,13 +18,16 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import lombok.SneakyThrows;
 import test.dto.ImageDto;
 import test.dto.ImageWithSlideshowDto;
 import test.dto.SlideshowDto;
 import test.entity.Image;
+import test.entity.ProofOfPlay;
 import test.entity.Slideshow;
 import test.entity.SlideshowImage;
 import test.repository.ImageRepository;
+import test.repository.ProofOfPlayRepository;
 import test.repository.SlideshowImageRepository;
 import test.repository.SlideshowRepository;
 
@@ -40,14 +44,16 @@ public class SlideshowControllerIT {
 
 	@Autowired
 	private SlideshowImageRepository slideshowImageRepository;
+	
+	@Autowired
+	private ProofOfPlayRepository proofOfPlayRepository;
 
 	@Autowired
 	TestRestTemplate testRestTemplate;
 
 	@Test
 	public void testAddImage() {
-		Long id = testRestTemplate.postForObject("/addImage", new ImageDto(null, "image4", "url4", 1L), Long.class);
-		assertNotNull(id);
+		long id = testRestTemplate.postForObject("/addImage", new ImageDto(null, "image4", "url4", 1L), Long.class);
 		Image image = imageRepository.findById(id).orElse(null);
 		assertNotNull(image);
 		assertEquals("url4", image.getUrl());
@@ -65,7 +71,7 @@ public class SlideshowControllerIT {
 
 	@Test
 	public void testAddSlideshow() {
-		Long id = testRestTemplate.postForObject("/addSlideshow", new SlideshowDto(null, "slideshow2", List.of(1001L)),
+		long id = testRestTemplate.postForObject("/addSlideshow", new SlideshowDto(null, "slideshow2", List.of(1001L)),
 				Long.class);
 		Slideshow slideshow = slideshowRepository.findById(id).orElse(null);
 		assertNotNull(slideshow);
@@ -108,6 +114,15 @@ public class SlideshowControllerIT {
 		assertEquals(2, dtos.length);
 		assertEquals("image1", dtos[0].name());
 		assertEquals("image2", dtos[1].name());
+	}
+	
+	@Test
+	@SneakyThrows
+	public void testProofOfPlay() {
+		testRestTemplate.getForObject("/slideShow/1001/proof-of-play/1001", Void.class);
+		Thread.sleep(Duration.ofSeconds(1));
+		List<ProofOfPlay> entities = proofOfPlayRepository.findAll();
+		assertEquals(1, entities.size());
 	}
 
 }

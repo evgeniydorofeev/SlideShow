@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,9 @@ import test.dto.SlideshowDto;
 import test.entity.Image;
 import test.entity.Slideshow;
 import test.entity.SlideshowImage;
+import test.events.ProofOfPlayEvent;
 import test.repository.ImageRepository;
+import test.repository.ProofOfPlayRepository;
 import test.repository.SlideshowImageRepository;
 import test.repository.SlideshowRepository;
 
@@ -31,10 +34,13 @@ public class SlideshowController {
 
 	@Autowired
 	private SlideshowRepository slideshowRepository;
-	
+
 	@Autowired
 	private SlideshowImageRepository slideshowImageRepository;
 
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
+	
 	@PostMapping("/addImage")
 	public Long addImage(@RequestBody ImageDto dto) {
 		Image image = new Image(dto.name(), dto.url(), dto.duration());
@@ -68,7 +74,7 @@ public class SlideshowController {
 	@GetMapping("/images/search")
 	public List<ImageWithSlideshowDto> imageSearch(@RequestParam(name = "duration", required = false) Long duration,
 			@RequestParam(name = "keyword", required = false) String keyword) {
-			return imageRepository.findImageWithSlideshow(duration, keyword);
+		return imageRepository.findImageWithSlideshow(duration, keyword);
 	}
 
 	@GetMapping("/slideShow/{id}/slideshowOrder")
@@ -77,7 +83,8 @@ public class SlideshowController {
 	}
 
 	@GetMapping("/slideShow/{id}/proof-of-play/{imageId}")
-	public void proofOfPlay() {
+	public void proofOfPlay(@PathVariable("id") long slideShowId, @PathVariable("imageId") long imageId) {
+		eventPublisher.publishEvent(new ProofOfPlayEvent(this, slideShowId, imageId));
 	}
 
 }

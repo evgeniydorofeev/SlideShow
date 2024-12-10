@@ -1,10 +1,9 @@
 package test.entity;
 
-import java.util.List;
+import java.time.Instant;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,11 +15,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Slideshow extends EntityBase {
+public class ProofOfPlay extends EntityBase {
 
 	@NotNull
-	private String name;
+	private Instant createdDate;
 
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "slideshow")
-	private List<SlideshowImage> slideshowImages;
+	@ManyToOne
+	@NotNull
+	private Slideshow slideshow;
+
+	@ManyToOne
+	@NotNull
+	private Image image;
 }
