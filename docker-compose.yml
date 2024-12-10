@@ -1,0 +1,28 @@
+name: slideshow
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    #hostname: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGPORT: 5432
+    ports:
+      - 5433:5432
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+
+  slideshow:
+    container_name: slideshow
+    image: slideshow
+    ports:
+    - 8080:8080
+    depends_on:
+    - postgres
+    environment:
+      spring.datasource.url: jdbc:postgresql://postgres:5432/postgres
+
+volumes:
+  pgdata:
