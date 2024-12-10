@@ -12,7 +12,7 @@ import test.entity.Image;
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
 	@Query("""
-			select new test.dto.ImageRecord(i.id, i.name, i.url, i.duration)
+			select new test.dto.ImageDto(i.id, i.name, i.url, i.duration)
 			from Image i where i in (select s.images from Slideshow s where s.id = :slideShowId)
 			order by i.duration
 		   """)

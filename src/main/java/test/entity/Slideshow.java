@@ -17,10 +17,10 @@ import lombok.Setter;
 @Entity
 public class Slideshow extends EntityBase {
 	private static final long serialVersionUID = 1L;
-	
+
 	@NotNull
 	private String name;
-	
-	 @OneToMany
-	 private Set<Image> images;
+
+	@OneToMany
+	private Set<Image> images;
 }
