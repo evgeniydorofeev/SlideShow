@@ -4,8 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -14,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import test.dto.ImageDto;
+import test.dto.ImageWithSlideshowDto;
 import test.dto.SlideshowDto;
 import test.entity.Image;
 import test.entity.Slideshow;
@@ -79,6 +84,24 @@ public class SlideshowControllerIT {
 		System.out.println(slideshows);
 	}
 	
+	@ParameterizedTest
+	@MethodSource("testImageSearchParams")
+	public void testImageSearch(String query, Long imageId, String imageName, Long duration, Long slideshowId, String slideShowName) {
+		ImageWithSlideshowDto[] dtos = testRestTemplate.getForObject("/images/search?" + query, ImageWithSlideshowDto[].class);
+		assertEquals(1, dtos.length);
+		assertEquals(imageId, dtos[0].id());
+		assertEquals(imageName, dtos[0].name());
+		assertEquals(duration, dtos[0].duration());
+		assertEquals(slideshowId, dtos[0].slideshowId());
+		assertEquals(slideShowName, dtos[0].slideshowName());
+  	}
+	
+	private static Stream<Arguments> testImageSearchParams() {
+	    return Stream.of(
+	    		Arguments.of("duration=1", 1001L, "image1", 1L, 1001L, "slideshow1"),
+	    		Arguments.of("keyword=url1", 1001L, "image1", 1L, 1001L, "slideshow1")
+	    );
+	}
 	@Test
 	public void testGetSlideshowImages() {
 		ImageDto[] dtos = testRestTemplate.getForObject("/slideShow/1001/slideshowOrder", ImageDto[].class);

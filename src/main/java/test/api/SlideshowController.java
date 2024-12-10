@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import test.dto.ImageDto;
+import test.dto.ImageWithSlideshowDto;
 import test.dto.SlideshowDto;
 import test.entity.Image;
 import test.entity.Slideshow;
@@ -64,7 +66,9 @@ public class SlideshowController {
 	}
 
 	@GetMapping("/images/search")
-	public void imageSearch() {
+	public List<ImageWithSlideshowDto> imageSearch(@RequestParam(name = "duration", required = false) Long duration,
+			@RequestParam(name = "keyword", required = false) String keyword) {
+			return imageRepository.findImageWithSlideshow(duration, keyword);
 	}
 
 	@GetMapping("/slideShow/{id}/slideshowOrder")
