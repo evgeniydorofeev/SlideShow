@@ -19,5 +19,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 			where s.id = :slideShowId
 			order by i.duration
 		   """)
-	List<ImageDto> findImageBySlideshowId(@Param("slideShowId") long slideShowId);
+	List<ImageDto> getImagesBySlideshowId(@Param("slideShowId") long slideShowId);
 }
