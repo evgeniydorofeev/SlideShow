@@ -36,15 +36,15 @@ public class SlideshowControllerIT {
 
 	@Test
 	public void testGetSlideshowOrder() {
-		Image image = imageRepository.save(new Image("test", "test", 1L));
-		slideshowRepository.save(new Slideshow("test", Set.of(image)));
-		String s = testRestTemplate.getForObject("/slideShow/1/slideshowOrder", String.class);
-		System.out.println(s);
+		Image image1 = imageRepository.save(new Image("test", "test", 1L));
+		imageRepository.save(new Image("test", "test", 2L));
+		slideshowRepository.save(new Slideshow("test", Set.of(image1)));
 		
-//		@SuppressWarnings("unchecked")
-//		List<ImageRecord> res = restClient.get().uri("/slideShow/1/slideshowOrder").retrieve().body(List.class);
-//		System.out.println(res);
-//		assertEquals(1, res.size());
+		ImageRecord[] res = testRestTemplate.getForObject("/slideShow/1/slideshowOrder", ImageRecord[].class);
+		assertEquals(1, res.length);
+		assertEquals("test", res[0].name());
+		assertEquals("test", res[0].url());
+		assertEquals(1L, res[0].duration());
 	}
 
 }

@@ -40,7 +40,7 @@ public class SlideshowController {
 
 	@GetMapping("/slideShow/{id}/slideshowOrder")
 	public List<ImageRecord> getSlideshows(@PathVariable("id") long slideShowId) {
-		return imageRepository.findSlideshowImages(slideShowId);
+		return imageRepository.findImageBySlideshowId(slideShowId);
 	}
 
 	@GetMapping("/slideShow/{id}/proof-of-play/{imageId}")
