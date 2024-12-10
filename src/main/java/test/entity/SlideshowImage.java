@@ -9,14 +9,14 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class SlideshowOrder extends EntityBase {
-	private static final long serialVersionUID = 1L;
+public class SlideshowImage extends EntityBase {
 	
 	@NotNull
-	private Integer showOrder;
+	@ManyToOne
+	private Image image;
 
 	@NotNull
-	private Image image;
+	private Integer slideOrder;
 	
 	@ManyToOne
 	@NotNull

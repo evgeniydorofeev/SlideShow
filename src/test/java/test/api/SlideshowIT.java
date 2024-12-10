@@ -1,6 +1,7 @@
 package test.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import test.repository.SlideshowRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/test.properties")
-@Sql("/scripts/init.sql")
+@Sql("/init.sql")
 public class SlideshowIT {
 
 	@Autowired
@@ -33,19 +34,27 @@ public class SlideshowIT {
 	
 	@Test
 	public void testAddImage() {
-		testRestTemplate.postForObject("/addImage", new ImageDto(null, "name", "url", 1L), Void.class);
-		List<Image> list = imageRepository.findAll();
-		assertEquals(1, list.size());
+		testRestTemplate.postForObject("/addImage", new ImageDto(null, "image0", "url0", 0L), Void.class);
+		Image res = imageRepository.findById(1L).orElseThrow();
+		assertNotNull(res);
+		assertEquals("image0", res.getName());
+		assertEquals("url0", res.getUrl());
+		assertEquals(0L, res.getDuration());
 	}
 	
 	@Test
-	@Sql("/scripts/testGetSlideshowImages.sql")
+	public void testDeleteImage() {
+		testRestTemplate.delete("/deleteImage/1003");
+		List<Image> list = imageRepository.findAll();
+		assertEquals(2, list.size());
+	}
+
+	@Test
 	public void testGetSlideshowImages() {
-		ImageDto[] res = testRestTemplate.getForObject("/slideShow/1/slideshowOrder", ImageDto[].class);
-		assertEquals(1, res.length);
-		assertEquals("name1", res[0].name());
-		assertEquals("url1", res[0].url());
-		assertEquals(1L, res[0].duration());
+		ImageDto[] res = testRestTemplate.getForObject("/slideShow/1001/slideshowOrder", ImageDto[].class);
+		assertEquals(2, res.length);
+		assertEquals("image1", res[0].name());
+		assertEquals("image2", res[1].name());	
 	}
 
 }

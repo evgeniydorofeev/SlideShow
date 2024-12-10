@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import test.dto.ImageDto;
+import test.dto.SlideshowDto;
 import test.entity.Image;
 import test.repository.ImageRepository;
+import test.repository.SlideshowRepository;
 
 @RestController
 public class SlideshowController {
@@ -20,17 +22,22 @@ public class SlideshowController {
 	@Autowired
 	private ImageRepository imageRepository;
 
+	@Autowired
+	private SlideshowRepository slideshowRepository;
+
 	@PostMapping("/addImage")
 	public void addImage(@RequestBody ImageDto dto) {
 		imageRepository.save(new Image(dto.name(), dto.url(), dto.duration()));
 	}
 
 	@DeleteMapping("/deleteImage/{id}")
-	public void deleteImage() {
+	public void deleteImage(@PathVariable("id") long id) {
+		imageRepository.deleteById(id);
 	}
 
 	@PostMapping("/addSlideshow")
-	public void addSlideshow() {
+	public void addSlideshow(SlideshowDto dto) {
+//		slideshowRepository
 	}
 
 	@DeleteMapping("/deleteSlideshow/{id}")
@@ -42,8 +49,8 @@ public class SlideshowController {
 	}
 
 	@GetMapping("/slideShow/{id}/slideshowOrder")
-	public List<ImageDto> getSlideshows(@PathVariable("id") long slideShowId) {
-		return imageRepository.findImageBySlideshowId(slideShowId);
+	public List<ImageDto> getSlideshowImages(@PathVariable("id") long slideShowId) {
+		return slideshowRepository.getSlideshowImages(slideShowId);
 	}
 
 	@GetMapping("/slideShow/{id}/proof-of-play/{imageId}")

@@ -13,7 +13,10 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
 	@Query("""
 			select new test.dto.ImageDto(i.id, i.name, i.url, i.duration)
-			from Image i where i in (select s.images from Slideshow s where s.id = :slideShowId)
+			from Image i
+			join SlideshowImage si on si.image = i
+			join Slideshow s on s = si.slideshow
+			where s.id = :slideShowId
 			order by i.duration
 		   """)
 	List<ImageDto> findImageBySlideshowId(@Param("slideShowId") long slideShowId);
