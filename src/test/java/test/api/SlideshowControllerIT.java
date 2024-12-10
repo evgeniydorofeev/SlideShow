@@ -121,7 +121,7 @@ public class SlideshowControllerIT {
 	@SneakyThrows
 	public void testProofOfPlay() {
 		testRestTemplate.getForObject("/slideShow/1001/proof-of-play/1001", Void.class);
-		Thread.sleep(Duration.ofSeconds(1));
+		Thread.sleep(Duration.ofMillis(500));
 		List<ProofOfPlay> entities = proofOfPlayRepository.findAll();
 		assertEquals(1, entities.size());
 	}
