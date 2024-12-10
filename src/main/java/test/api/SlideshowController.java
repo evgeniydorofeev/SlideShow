@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import test.dto.ImageRecord;
+import test.dto.ImageDto;
+import test.entity.Image;
 import test.repository.ImageRepository;
 
 @RestController
@@ -19,7 +21,8 @@ public class SlideshowController {
 	private ImageRepository imageRepository;
 
 	@PostMapping("/addImage")
-	public void addImage() {
+	public void addImage(@RequestBody ImageDto dto) {
+		imageRepository.save(new Image(dto.name(), dto.url(), dto.duration()));
 	}
 
 	@DeleteMapping("/deleteImage/{id}")
@@ -39,7 +42,7 @@ public class SlideshowController {
 	}
 
 	@GetMapping("/slideShow/{id}/slideshowOrder")
-	public List<ImageRecord> getSlideshows(@PathVariable("id") long slideShowId) {
+	public List<ImageDto> getSlideshows(@PathVariable("id") long slideShowId) {
 		return imageRepository.findImageBySlideshowId(slideShowId);
 	}
 

@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 public class Image extends EntityBase {
+
 	private static final long serialVersionUID = 1L;
 
 	@NotNull

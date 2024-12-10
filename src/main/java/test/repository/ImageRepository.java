@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import test.dto.ImageRecord;
+import test.dto.ImageDto;
 import test.entity.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
@@ -16,5 +16,5 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 			from Image i where i in (select s.images from Slideshow s where s.id = :slideShowId)
 			order by i.duration
 		   """)
-	List<ImageRecord> findImageBySlideshowId(@Param("slideShowId") long slideShowId);
+	List<ImageDto> findImageBySlideshowId(@Param("slideShowId") long slideShowId);
 }

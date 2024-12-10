@@ -15,7 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestClient;
 
-import test.dto.ImageRecord;
+import test.dto.ImageDto;
 import test.entity.Image;
 import test.entity.Slideshow;
 import test.repository.ImageRepository;
@@ -40,7 +40,21 @@ public class SlideshowControllerIT {
 		imageRepository.save(new Image("test", "test", 2L));
 		slideshowRepository.save(new Slideshow("test", Set.of(image1)));
 		
-		ImageRecord[] res = testRestTemplate.getForObject("/slideShow/1/slideshowOrder", ImageRecord[].class);
+		ImageDto[] res = testRestTemplate.getForObject("/slideShow/1/slideshowOrder", ImageDto[].class);
+		assertEquals(1, res.length);
+		assertEquals("test", res[0].name());
+		assertEquals("test", res[0].url());
+		assertEquals(1L, res[0].duration());
+	}
+
+	
+	@Test
+	public void testGetSlideshowOrder() {
+		Image image1 = imageRepository.save(new Image("test", "test", 1L));
+		imageRepository.save(new Image("test", "test", 2L));
+		slideshowRepository.save(new Slideshow("test", Set.of(image1)));
+		
+		ImageDto[] res = testRestTemplate.getForObject("/slideShow/1/slideshowOrder", ImageDto[].class);
 		assertEquals(1, res.length);
 		assertEquals("test", res[0].name());
 		assertEquals("test", res[0].url());
