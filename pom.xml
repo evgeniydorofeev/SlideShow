@@ -62,9 +62,6 @@
 					<images>
 						<image>
 							<name>slideshow</name>
-							<build>
-								<dockerFileDir>${project.basedir}/</dockerFileDir>
-							</build>
 						</image>
 					</images>
 				</configuration>
