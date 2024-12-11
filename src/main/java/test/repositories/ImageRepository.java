@@ -26,7 +26,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 			select new test.dto.ImageWithSlideshowDto(i.id, i.name, i.url, i.duration, s.id, s.name)
 			from Image i
 			join SlideshowImage si on si.image = i
-			join fetch Slideshow s on s = si.slideshow
+			join Slideshow s on s = si.slideshow
 			where
 			(:duration is null or i.duration = :duration)
 			and
