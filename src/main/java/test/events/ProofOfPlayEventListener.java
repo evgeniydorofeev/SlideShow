@@ -29,8 +29,8 @@ public class ProofOfPlayEventListener {
 	@EventListener
 	@Transactional
 	public void handleUserRegistration(ProofOfPlayEvent event) {
-		Slideshow slideshow = slideshowRepository.findById(event.getSlideshowId()).orElseThrow();
-		Image image = imageRepository.findById(event.getImageId()).orElseThrow();
+		Slideshow slideshow = slideshowRepository.findById(event.getSlideshowId()).get();
+		Image image = imageRepository.findById(event.getImageId()).get();
 		proofOfPlayRepository.save(new ProofOfPlay(Instant.now(), slideshow, image));
 	}
 }
