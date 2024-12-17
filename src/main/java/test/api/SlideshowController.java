@@ -3,7 +3,6 @@ package test.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 import test.dto.ImageDto;
 import test.dto.ImageWithSlideshowDto;
 import test.dto.SlideshowDto;
@@ -26,19 +26,12 @@ import test.repositories.SlideshowImageRepository;
 import test.repositories.SlideshowRepository;
 
 @RestController
+@RequiredArgsConstructor
 public class SlideshowController {
-
-	@Autowired
-	private ImageRepository imageRepository;
-
-	@Autowired
-	private SlideshowRepository slideshowRepository;
-
-	@Autowired
-	private SlideshowImageRepository slideshowImageRepository;
-
-	@Autowired
-	private ApplicationEventPublisher eventPublisher;
+	private final ImageRepository imageRepository;
+	private final SlideshowRepository slideshowRepository;
+	private final SlideshowImageRepository slideshowImageRepository;
+	private final ApplicationEventPublisher eventPublisher;
 	
 	/**
 	 * Create a new Image entity.

@@ -19,4 +19,7 @@ addImage and addSlideShow operations return the created entity ID which can be u
 
 In this version Hibernate is configured to re-create DB schema after each restart, so all the data created in the previous session is lost.
 
+To run integration test: `mvnw failsafe:integration-test`
+
+
 

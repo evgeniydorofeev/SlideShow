@@ -2,11 +2,11 @@ package test.events;
 
 import java.time.Instant;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import test.entities.Image;
 import test.entities.ProofOfPlay;
 import test.entities.Slideshow;
@@ -15,16 +15,11 @@ import test.repositories.ProofOfPlayRepository;
 import test.repositories.SlideshowRepository;
 
 @Component
+@RequiredArgsConstructor
 public class ProofOfPlayEventListener {
-
-	@Autowired
-	private ImageRepository imageRepository;
-
-	@Autowired
-	private SlideshowRepository slideshowRepository;
-
-	@Autowired
-	private ProofOfPlayRepository proofOfPlayRepository;
+	private final ImageRepository imageRepository;
+	private final SlideshowRepository slideshowRepository;
+	private final ProofOfPlayRepository proofOfPlayRepository;
 
 	@EventListener
 	@Transactional
